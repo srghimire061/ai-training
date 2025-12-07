@@ -1,0 +1,4 @@
+Designing the Foundation of a Personalized Learning System
+- Collaborative: https://www.ibm.com/think/topics/collaborative-filtering
+- Recommender Systems: https://neptune.ai/blog/recommender-systems-metrics
+- Recommender Systems II: https://www.kaggle.com/code/prashant111/recommender-systems-in-python
