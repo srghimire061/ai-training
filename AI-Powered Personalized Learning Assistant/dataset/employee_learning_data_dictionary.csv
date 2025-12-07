@@ -1,0 +1,15 @@
+Column Name,Data Type,Description
+employee_id,String,"Unique identifier assigned to each employee (e.g., E0042)."
+department,String,"Department the employee belongs to (e.g., Retail Banking, Compliance)."
+role_level,String,"Hierarchical level of the employee (e.g., Associate, Manager, VP)."
+training_module_id,String,"Unique ID for the training module (e.g., M17)."
+module_name,String,"Title or name of the training module (e.g., Module 17)."
+module_type,String,"Format of the module (e.g., Video, Quiz, Article, Webinar)."
+start_date,Date,Date when the employee started the module.
+completion_date,Date / Null,Date of completion (if completed); blank if incomplete or dropped.
+completion_status,String,"Whether the module was Completed, Incomplete, or Dropped."
+score,Integer / Null,"Score obtained (out of 100), applicable mostly to quizzes."
+feedback_rating,Integer / Null,Employee’s feedback rating for the module (1 to 5 scale).
+time_spent_minutes,Integer,Total time spent on the module (in minutes).
+preferred_learning_style,String,"Detected or self-reported learning preference (e.g., Visual, Auditory)."
+last_login_date,Date,Last recorded login date to the learning system.
