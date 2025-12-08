@@ -1,4 +1,28 @@
+Url
+https://app.tangible.careers/
+https://explore.tangible.careers/
+
+https://www.youtube.com/watch?v=lWmDiDGsLK4
+https://www.kaggle.com/code/prashant111/recommender-systems-in-python
+
+Prototype
+https://www.magicpatterns.com/
+https://bolt.new/
+https://replit.com/
+https://lovable.dev/
+https://claude.ai/
+
+https://medium.com/@sanghwa4341/clustering-analysis-of-movie-385b01c2e37a
+http://displayr.com/understanding-cluster-analysis-a-comprehensive-guide/
+
+Understanding Learning Data and Identifying Personalization Opportunities
+- Learning Panda: https://www.w3schools.com/python/pandas/default.asp
+
 Designing the Foundation of a Personalized Learning System
 - Collaborative: https://www.ibm.com/think/topics/collaborative-filtering
 - Recommender Systems: https://neptune.ai/blog/recommender-systems-metrics
 - Recommender Systems II: https://www.kaggle.com/code/prashant111/recommender-systems-in-python
+
+Building a Prototype Scoring Engine for Personalized Recommendations
+- Simple Score based recommendation System: https://www.datacamp.com/tutorial/recommender-systems-python
+- Feature Normalization: https://www.geeksforgeeks.org/machine-learning/Feature-Engineering-Scaling-Normalization-and-Standardization/
