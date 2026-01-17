@@ -30,5 +30,8 @@ Building a Prototype Scoring Engine for Personalized Recommendations
 Build a complex web app with Replit
 - https://www.youtube.com/watch?v=WfisUZb1_FQ
 
-Feedback Form
+AI Foundation Training - Feedback
 - https://tally.so/r/obE0rb
+
+Personalized Learning Python Notebook
+- https://colab.research.google.com/drive/1vOKhkL8LVGm66SZQUNyJvXQSRzMC-zLl#scrollTo=xPDmfUjQ_7sh
