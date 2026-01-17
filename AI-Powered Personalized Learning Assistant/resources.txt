@@ -26,3 +26,9 @@ Designing the Foundation of a Personalized Learning System
 Building a Prototype Scoring Engine for Personalized Recommendations
 - Simple Score based recommendation System: https://www.datacamp.com/tutorial/recommender-systems-python
 - Feature Normalization: https://www.geeksforgeeks.org/machine-learning/Feature-Engineering-Scaling-Normalization-and-Standardization/
+
+Build a complex web app with Replit
+- https://www.youtube.com/watch?v=WfisUZb1_FQ
+
+Feedback Form
+- https://tally.so/r/obE0rb
