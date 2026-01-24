@@ -868,4 +868,168 @@ actionable insights.
 
 The resulting framework provides a strong foundation for further
 enhancement using advanced models and time-aware features.
+
+# Deployment
+
+Step 1: Freeze the Model
 """
+
+import joblib
+
+joblib.dump(log_reg_future, "loan_uptake_model_v1.pkl")
+joblib.dump(scaler_future, "loan_uptake_scaler_v1.pkl")
+joblib.dump(X_future_encoded.columns.tolist(), "loan_uptake_features_v1.pkl")
+
+"""Step 2: Define the Production Input Dataset
+
+```
+CIF_ID
+AGE
+ACCOUNT_VINTAGE_MONTHS
+MONTHLY_AVG_DEP
+MONTHLY_AVG_CR_AMT
+MONTHLY_AVG_DR_AMT
+MONTHLY_NO_OF_TXNS
+NO_OF_QR_TXNS
+NO_OF_POS_TXNS
+PROFESSION
+DISTRICT
+PROVINCE
+DORMANT_STATUS
+RISK_BUCKET
+PREPAYMENT_HIST
+```
+
+Step 3: Build the Scoring Script
+"""
+
+import joblib
+import pandas as pd
+from google.colab import files
+
+# ===============================
+# Load model artifacts
+# ===============================
+model = joblib.load("loan_uptake_model_v1.pkl")
+scaler = joblib.load("loan_uptake_scaler_v1.pkl")
+model_features = joblib.load("loan_uptake_features_v1.pkl")
+
+# ===============================
+# Upload CSV file
+# ===============================
+uploaded = files.upload()
+filename = list(uploaded.keys())[0]
+
+df_new = pd.read_csv(filename)
+
+print("Input columns:", df_new.columns.tolist())
+print("Input shape:", df_new.shape)
+
+# ===============================
+# Standardize column names
+# ===============================
+df_new.columns = df_new.columns.str.strip()
+
+# ===============================
+# Identify CIF column safely
+# ===============================
+possible_id_cols = ["CIF_ID", "cif_id", "CUST_ID", "CUSTOMER_ID"]
+cif_col = next((c for c in possible_id_cols if c in df_new.columns), None)
+
+if cif_col is None:
+    raise ValueError("❌ No customer identifier column found in input data")
+
+# Preserve CIF
+cif_ids = df_new[cif_col]
+
+# Create a clean copy for modeling
+df_model_input = df_new.drop(columns=[cif_col]).copy()
+
+# ===============================
+# One-hot encoding
+# ===============================
+df_encoded = pd.get_dummies(df_model_input)
+
+# Align features exactly with training schema
+df_encoded = df_encoded.reindex(
+    columns=model_features,
+    fill_value=0
+)
+
+# ===============================
+# Scaling
+# ===============================
+df_scaled = scaler.transform(df_encoded)
+
+# ===============================
+# Prediction
+# ===============================
+probabilities = model.predict_proba(df_scaled)[:, 1]
+
+# ===============================
+# Business segmentation
+# ===============================
+def segment(p):
+    if p >= 0.80:
+        return "High Priority"
+    elif p >= 0.65:
+        return "Medium Priority"
+    else:
+        return "Low Priority"
+
+segments = [segment(p) for p in probabilities]
+
+# ===============================
+# Loan Product Recommendation (RULE-BASED)
+# ===============================
+def recommend_product(row):
+    if row.get("MONTHLY_AVG_DEP", 0) > 100000:
+        return "Home Loan"
+    elif row.get("NO_OF_POS_TXNS", 0) > 10:
+        return "Business Loan"
+    else:
+        return "Personal Loan"
+
+recommended_products = df_model_input.apply(recommend_product, axis=1)
+
+# ===============================
+# Final Output
+# ===============================
+output = pd.DataFrame({
+    "CIF_ID": cif_ids,
+    "Loan_Uptake_Probability": probabilities,
+    "Segment": segments,
+    "Recommended_Product": recommended_products
+})
+
+print("\n✅ Scored Output with Segment & Product Recommendation:")
+display(output.head(10))
+
+"""Step 4: Business Threshold & Segmentation"""
+
+def segment(p):
+    if p >= 0.80:
+        return "High Priority"
+    elif p >= 0.65:
+        return "Medium Priority"
+    else:
+        return "Low Priority"
+
+output["Segment"] = output["Loan_Uptake_Probability"].apply(segment)
+
+"""Step 5: Loan Product Mapping (Cross-Sell Intelligence)"""
+
+def recommend(row):
+    if row["MONTHLY_AVG_DEP"] > 100000:
+        return "Home Loan"
+    elif row["NO_OF_POS_TXNS"] > 10:
+        return "Business Loan"
+    else:
+        return "Personal Loan"
+
+df_new["Recommended_Product"] = df_new.apply(recommend, axis=1)
+
+"""Step 6: Print the Output"""
+
+print("\n✅ Scored Output with Segment & Product Recommendation:")
+display(output.head(10))
